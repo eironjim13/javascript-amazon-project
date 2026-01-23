@@ -3,7 +3,7 @@ import {
   removeFromCart, 
   calculateCartQuantity,
   updateQuantity,
-  updateDeliveryOption
+  updateDeliveryOption 
 } from '../../data/cart.js';
 import {products, getProduct} from '../../data/products.js';
 import {formatCurrency} from '../utils/money.js';
@@ -138,10 +138,7 @@ export function renderOrderSummary() {
         const productId = link.dataset.productId;
         removeFromCart(productId);
         
-        const container = document.querySelector(
-          `.js-cart-item-container-${productId}`
-          );
-        container.remove();
+        renderOrderSummary();
         
         renderPaymentSummary();
         updateCartQuantity();
@@ -158,7 +155,7 @@ export function renderOrderSummary() {
         });
       });
 
-    function updateCartQuantity() {
+     function updateCartQuantity() {
       
       const cartQuantity = calculateCartQuantity();
 
@@ -191,8 +188,8 @@ export function renderOrderSummary() {
     });
 
 
-      document.querySelectorAll('.js-save-link')
-    .forEach((link) => {
+    document.querySelectorAll('.js-save-link')
+      .forEach((link) => {
       link.addEventListener('click', () => {
         const productId = link.dataset.productId;
 
@@ -217,7 +214,9 @@ export function renderOrderSummary() {
         );
     
         quantityLabel.innerHTML = newQuantity;
+
         updateCartQuantity();
+        renderPaymentSummary();
       });
     });
   }
