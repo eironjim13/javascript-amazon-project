@@ -1,9 +1,14 @@
-function Cart(localStorageKey) {
-  const cart = {
-    cartItems: undefined,
+class Cart {
+  cartItems;
+  localStorageKey;
 
-    loadFromStorage() {
-      this.cartItems = JSON.parse(localStorage.getItem(localStorageKey));
+  constructor(localStorageKey) {
+    this.localStorageKey = localStorageKey;
+    this.loadFromStorage();
+  }
+
+  loadFromStorage() {
+      this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey));
 
       if (!this.cartItems) {
         this.cartItems = [{
@@ -16,11 +21,11 @@ function Cart(localStorageKey) {
           deliveryOptionId: '2'
         }];
       }
-    },
+    }
 
     saveToStorage() {
-      localStorage.setItem(localStorageKey, JSON.stringify(this.cartItems));
-    },
+      localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems));
+    }
 
     addToCart(productId) {
       let matchingItem = this.cartItems.find(
@@ -46,9 +51,9 @@ function Cart(localStorageKey) {
       }
 
       this.saveToStorage();
-    },
+    }
 
-    removeFromCart(productId){
+     removeFromCart(productId){
         const newCart = [];
         cart.forEach((cartItem) => {
           if (cartItem.productId !== productId) {
@@ -59,7 +64,7 @@ function Cart(localStorageKey) {
         this.cart = newCart;
     
         this.saveToStorage();
-    },
+    }
 
     updateQuantity(productId, newQuantity) {
       const matchingItem = cart.find(
@@ -73,7 +78,7 @@ function Cart(localStorageKey) {
   
       matchingItem.quantity = newQuantity;
       saveToStorage();
-    },
+    }
 
     updateDeliveryOption(productId, deliveryOptionId) {
         let matchingItem;
@@ -87,7 +92,7 @@ function Cart(localStorageKey) {
         matchingItem.deliveryOptionId = deliveryOptionId;
     
         saveToStorage();
-      },
+      }
 
     calculateCartQuantity() {
       return this.cartItems.reduce(
@@ -95,19 +100,14 @@ function Cart(localStorageKey) {
         0
       );
     }
-  };
-
-  return cart;
 }
 
-const  cart = Cart('cart-oop');
-const businessCart = Cart('cart-business');
+const  cart = new Cart('cart-oop');
+const businessCart = new Cart('cart-business');
 
-
-cart.loadFromStorage();
-cart.addToCart('83d4ca15-0f35-48f5-b7a3-1ea210004f2e');
 console.log(cart);
 console.log(businessCart);
+console.log(businessCart instanceof Cart);
 
 
 
